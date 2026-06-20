@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work — Teodors Lapsa</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23961a24'/></svg>">
+
+  <link rel="stylesheet" href="https://use.typekit.net/pgu7sez.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=1,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="enindex.html" class="nav-logo">Teodors Lapsa</a>
+    
+    <button class="menu-toggle" aria-label="Open menu">
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-links">
+      <a href="work.html" class="nav-item active-page">work</a>
+      <a href="contact.html" class="nav-item">contact</a>
+      
+      <a href="archive.html" class="nav-item">archive</a>
+      <a href="darbi.html" class="nav-item lang-btn">lv</a>
+    </div>
+
+    <div class="nav-right-features">
+        <a href="https://instagram.com/teodorslapsa" target="_blank" class="nav-ig-icon" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+      </div>
+  </nav>
+
+  <main class="work-container">
+    <section class="work-grid">
+      
+      <a href="en_airesana.html" class="work-card">
+        <div class="card-bg" style="background-image: url('https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/airesana.jpg');"></div>
+        <div class="card-info">
+          <h2>Rowing Training</h2>
+          <span class="card-category">2026</span>
+        </div>
+      </a>
+
+      <a href="en_frekvencu.html" class="work-card">
+        <div class="card-bg" style="background-image: url('https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/frekvencu.jpg');"></div>
+        <div class="card-info">
+          <h2>Frequency Chaos .2</h2>
+          <span class="card-category">2026</span>
+        </div>
+      </a>
+
+      <a href="en_volejbols.html" class="work-card">
+        <div class="card-bg" style="background-image: url('https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/U19V.jpg');"></div>
+        <div class="card-info">
+          <h2>U19 Volleyball</h2>
+          <span class="card-category">2026</span>
+        </div>
+      </a>
+
+      <a href="en_futbols.html" class="work-card">
+        <div class="card-bg" style="background-image: url('https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/futbolss.jpg');"></div>
+        <div class="card-info">
+          <h2>2. league football</h2>
+          <span class="card-category">2026</span>
+        </div>
+      </a>
+
+      <a href="en_pigen.html" class="work-card">
+        <div class="card-bg" style="background-image: url('https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/gpigen.jpg');"></div>
+        <div class="card-info">
+          <h2>Band "PIGEN"</h2>
+          <span class="card-category">2025</span>
+        </div>
+      </a>
+
+      <a href="en_teatraizrade.html" class="work-card">
+        <div class="card-bg" style="background-image: url('https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/TIAutobuss.jpg');"></div>
+        <div class="card-info">
+          <h2>Theater Performance "The Bus"</h2>
+          <span class="card-category">2025</span>
+        </div>
+      </a>
+
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 Teodors Lapsa &nbsp;·&nbsp; teodorslapsa.lv
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>

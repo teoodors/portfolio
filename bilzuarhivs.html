@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teodors Lapsa | Arhīvs (Iekšlapa)</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23961a24'/></svg>">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">TEODORS LAPSA</a>
+    <div class="nav-links">
+      <a href="darbi.html" class="nav-item">darbi</a>
+      <a href="kontakti.html" class="nav-item">kontakti</a>
+      <a href="arhīvs.html" class="nav-item active-page">arhīvs</a>
+      <a href="#" class="nav-item lang-btn">en</a>
+    </div>
+    <div class="nav-right-features">
+      <a href="#" class="nav-ig-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      </a>
+    </div>
+    <button class="menu-toggle"><span></span><span></span></button>
+  </nav>
+
+  <main class="archive-inner-container">
+    
+    <div class="filter-wrapper">
+      <div class="filter-main">FILTRS</div>
+      
+      <div class="filter-options level-1">
+        <button class="filter-btn active" data-filter-type="camera" data-value="all">VISI</button>
+        <button class="filter-btn has-sub" data-filter-type="camera" data-value="5d">5D MK IV</button>
+        <button class="filter-btn" data-filter-type="camera" data-value="zenit">ZENIT</button>
+        <button class="filter-btn" data-filter-type="camera" data-value="drons">DRONS</button>
+      </div>
+
+     <div class="filter-options level-2" id="sub-5d">
+        <span class="sub-label">+ Objektīvs:</span>
+        <button class="filter-btn active" data-filter-type="lens" data-value="all">Jebkurš</button>
+        <button class="filter-btn" data-filter-type="lens" data-value="24-70">24-70mm</button>
+        <button class="filter-btn" data-filter-type="lens" data-value="70-200">70-200mm</button>
+      </div>
+    </div>
+
+    <div class="gallery-grid" id="auto-gallery">
+    </div>
+
+  </main>
+
+  <div id="popup-overlay" class="popup-overlay">
+    <button class="popup-close">&times;</button>
+    
+    <button class="popup-nav prev" aria-label="Iepriekšējā">
+      <svg viewBox="0 0 100 100"><path d="M70 10 L30 50 L70 90" fill="none" stroke="white" stroke-width="2"/></svg>
+    </button>
+
+    <div class="popup-content">
+      <img id="popup-img" src="" alt="Palielināts attēls">
+    </div>
+
+    <button class="popup-nav next" aria-label="Nākamā">
+      <svg viewBox="0 0 100 100"><path d="M30 10 L70 50 L30 90" fill="none" stroke="white" stroke-width="2"/></svg>
+    </button>
+  </div>
+
+    <footer>
+    &copy; 2026 Teodors Lapsa &nbsp;·&nbsp; teodorslapsa.lv
+  </footer>
+
+ <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Jaunais, pareizais kods:
+const galleryGrid = document.getElementById('auto-gallery');
+const totalImages = 152; 
+
+const imageFolder = "https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/"; 
+const baseName = "bildesarhivs";
+      const extension = ".jpg"; 
+
+      const dronaBildes = [143, 146, 147, 148, 149, 150, 151, 152];
+      const zenitBildes = [131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142];
+      const lens70_200 = [1, 12, 13, 19, 25, 26, 34, 63, 70, 106, 116, 117, 119, 120, 121, 128];
+      
+      // --- 1. BILŽU ĢENERĒŠANA ---
+      for (let i = 1; i <= totalImages; i++) {
+        let num = String(i).padStart(3, '0');
+        
+        let gridItem = document.createElement('div');
+        gridItem.className = 'grid-item';
+
+        if (dronaBildes.includes(i)) {
+          gridItem.dataset.camera = 'drons';
+          gridItem.dataset.lens = 'none';
+        } else if (zenitBildes.includes(i)) {
+          gridItem.dataset.camera = 'zenit';
+          gridItem.dataset.lens = 'none';
+        } else {
+          gridItem.dataset.camera = '5d';
+          if (lens70_200.includes(i)) {
+            gridItem.dataset.lens = '70-200';
+          } else {
+            gridItem.dataset.lens = '24-70'; 
+          }
+        }
+
+        let img = document.createElement('img');
+        img.src = `${imageFolder}${baseName}${num}${extension}`;
+        img.alt = `Arhīvs ${num}`;
+        img.loading = "lazy";
+        img.style.cursor = "pointer";
+
+        gridItem.appendChild(img);
+        galleryGrid.appendChild(gridItem);
+      }
+
+      // --- 2. FILTRA LOĢIKA ---
+      const filterMainBtn = document.querySelector('.filter-main');
+      const level1Options = document.querySelector('.level-1');
+      const level2Options = document.querySelector('.level-2');
+      const allFilterBtns = document.querySelectorAll('.filter-btn');
+
+      let currentCamera = 'all';
+      let currentLens = 'all';
+
+      filterMainBtn.addEventListener('click', () => {
+        level1Options.classList.toggle('visible');
+      });
+
+      allFilterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const type = btn.dataset.filterType;
+          const value = btn.dataset.value;
+
+          btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          if (type === 'camera') {
+            currentCamera = value;
+            currentLens = 'all'; 
+            
+            level2Options.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            level2Options.querySelector('[data-value="all"]').classList.add('active');
+
+            if (btn.classList.contains('has-sub')) {
+              level2Options.style.display = 'flex';
+              setTimeout(() => level2Options.classList.add('visible'), 10);
+            } else {
+              level2Options.classList.remove('visible');
+              setTimeout(() => level2Options.style.display = 'none', 400);
+            }
+          } 
+          else if (type === 'lens') {
+            currentLens = value;
+          }
+
+          const dynamicallyGeneratedItems = document.querySelectorAll('.grid-item');
+          dynamicallyGeneratedItems.forEach(item => {
+            const itemCam = item.dataset.camera;
+            const itemLens = item.dataset.lens;
+
+            const camMatch = (currentCamera === 'all' || itemCam === currentCamera);
+            const lensMatch = (currentLens === 'all' || itemLens === currentLens || currentLens === 'none');
+
+            if (camMatch && lensMatch) {
+              item.classList.remove('hidden');
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      // --- 3. LIGHTBOX / POPUP LOĢIKA ---
+      const overlay = document.getElementById('popup-overlay');
+      const popupImg = document.getElementById('popup-img');
+      const closeBtn = document.querySelector('.popup-close');
+      const prevBtn = document.querySelector('.popup-nav.prev');
+      const nextBtn = document.querySelector('.popup-nav.next');
+      
+      let currentVisibleImages = [];
+      let currentIndex = 0;
+
+      galleryGrid.addEventListener('click', (e) => {
+        if (e.target.tagName === 'IMG') {
+          currentVisibleImages = Array.from(document.querySelectorAll('.grid-item:not(.hidden) img'));
+          currentIndex = currentVisibleImages.indexOf(e.target);
+          openPopup(e.target.src);
+        }
+      });
+
+      function openPopup(src) {
+        popupImg.src = src;
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePopup() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function showNext() {
+        if (currentVisibleImages.length === 0) return;
+        currentIndex = (currentIndex + 1) % currentVisibleImages.length;
+        popupImg.src = currentVisibleImages[currentIndex].src;
+      }
+
+      function showPrev() {
+        if (currentVisibleImages.length === 0) return;
+        currentIndex = (currentIndex - 1 + currentVisibleImages.length) % currentVisibleImages.length;
+        popupImg.src = currentVisibleImages[currentIndex].src;
+      }
+
+      closeBtn.addEventListener('click', closePopup);
+      nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+      prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay || e.target.classList.contains('popup-content')) {
+          closePopup();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!overlay.classList.contains('active')) return;
+        if (e.key === "Escape") closePopup();
+        if (e.key === "ArrowRight") showNext();
+        if (e.key === "ArrowLeft") showPrev();
+      });
+
+    });
+  </script>
+</body>
+</html>

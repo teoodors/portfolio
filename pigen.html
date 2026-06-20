@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grupa "PIGEN" — Teodors Lapsa</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23961a24'/></svg>">
+  <link rel="stylesheet" href="https://use.typekit.net/pgu7sez.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Teodors Lapsa</a>
+    <button class="menu-toggle" aria-label="Atvērt izvēlni">
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-links">
+      <a href="darbi.html" class="nav-item active-page">darbi</a>
+      <a href="kontakti.html" class="nav-item">kontakti</a>
+      
+      <a href="arhīvs.html" class="nav-item">arhīvs</a>
+      <a href="en_pigen.html" class="nav-item lang-btn">en</a>
+    </div>
+
+    <div class="nav-right-features">
+        <a href="https://instagram.com/teodorslapsa" target="_blank" class="nav-ig-icon" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+      </div>
+  </nav>
+
+  <main class="project-container">
+    <header class="project-header">
+      <h1>Grupa "PIGEN"</h1>
+    </header>
+
+    <div class="project-gallery">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN001.jpg" alt="Grupa 'PIGEN' 1">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN002.jpg" alt="Grupa 'PIGEN' 2">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN003.jpg" alt="Grupa 'PIGEN' 3">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN004.jpg" alt="Grupa 'PIGEN' 4">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN005.jpg" alt="Grupa 'PIGEN' 5">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN006.jpg" alt="Grupa 'PIGEN' 6">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN007.jpg" alt="Grupa 'PIGEN' 7">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN008.jpg" alt="Grupa 'PIGEN' 8">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN009.jpg" alt="Grupa 'PIGEN' 9">
+      <img src="https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/PIGEN010.jpg" alt="Grupa 'PIGEN' 10">
+    </div>
+
+    <div class="back-to-works-container">
+      <a href="darbi.html" class="back-to-works-btn">atpakaļ uz darbiem</a>
+    </div>
+
+
+    <section class="suggested-section">
+      <h2>++</h2>
+      <div class="suggested-grid">
+      </div>
+    </section>
+  </main>
+
+  <div id="popup-overlay" class="popup-overlay">
+    <button class="popup-close">&times;</button>
+    
+    <button class="popup-nav prev" aria-label="Iepriekšējā">
+      <svg viewBox="0 0 100 100"><path d="M70 10 L30 50 L70 90" fill="none" stroke="white" stroke-width="2"/></svg>
+    </button>
+
+    <div class="popup-content">
+      <img id="popup-img" src="" alt="Palielināts attēls">
+    </div>
+
+    <button class="popup-nav next" aria-label="Nākamā">
+      <svg viewBox="0 0 100 100"><path d="M30 10 L70 50 L30 90" fill="none" stroke="white" stroke-width="2"/></svg>
+    </button>
+  </div>
+
+  <footer>
+    &copy; 2026 Teodors Lapsa &nbsp;·&nbsp; teodorslapsa.lv
+  </footer>
+
+  <script>
+    // 1. Mobilā menu loģika
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+    }
+
+    // 2. POPUP LIGHTBOX LOĢIKA
+    const images = document.querySelectorAll('.project-gallery img');
+    const overlay = document.getElementById('popup-overlay');
+    const popupImg = document.getElementById('popup-img');
+    const closeBtn = document.querySelector('.popup-close');
+    const prevBtn = document.querySelector('.popup-nav.prev');
+    const nextBtn = document.querySelector('.popup-nav.next');
+    
+    let currentIndex = 0;
+
+    images.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        currentIndex = index;
+        openPopup();
+      });
+    });
+
+    function openPopup() {
+      popupImg.src = images[currentIndex].src;
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      popupImg.src = images[currentIndex].src;
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      popupImg.src = images[currentIndex].src;
+    }
+
+    closeBtn.addEventListener('click', closePopup);
+    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+    prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target.classList.contains('popup-content')) {
+        closePopup();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('active')) return;
+      if (e.key === "Escape") closePopup();
+      if (e.key === "ArrowRight") showNext();
+      if (e.key === "ArrowLeft") showPrev();
+    });
+
+    // 3. UNIVERSĀLAIS RANDOM PROJEKTU ĢENERATORS UN KARTĪŠU STRUKTŪRA
+    const visiProjekti = [
+      { url: 'airesana.html', bgImage: 'https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/airesana.jpg', title: 'Airēšanas treniņš' },
+      { url: 'frekvencu.html', bgImage: 'https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/frekvencu.jpg', title: 'Frekvenču Haoss .2' },
+      { url: 'volejbols.html', bgImage: 'https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/U19V.jpg', title: 'U19 Volejbols' },
+      { url: 'futbols.html', bgImage: 'https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/futbolss.jpg', title: 'Futbols' },
+      { url: 'pigen.html', bgImage: 'https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/gpigen.jpg', title: 'Grupa "PIGEN"' },
+      { url: 'teatraizrade.html', bgImage: 'https://res.cloudinary.com/dtyw9u8vv/image/upload/f_auto,q_auto/TIAutobuss.jpg', title: 'Teātra Izrāde "Autobuss"' }
+    ];
+
+    function generetRandomProjektus() {
+      const gridContainer = document.querySelector('.suggested-grid');
+      if (!gridContainer) return;
+
+      // Iegūstam tīru pašreizējā faila nosaukumu
+      const pasreizejaisFails = window.location.pathname.split('/').pop();
+
+      // Noņemam pašreizējo lapu no ieteikumiem, lai nedublējas
+      const pieejamieProjekti = visiProjekti.filter(p => p.url !== pasreizejaisFails);
+
+      // Samaisām nejaušā secībā
+      const samaisiti = pieejamieProjekti.sort(() => 0.5 - Math.random());
+
+      // Paņemam 2 random projektus
+      const izveletieProjekti = samaisiti.slice(0, 2);
+
+      // Iztīrām veco kodu un ieliekam jaunos random darbus
+      gridContainer.innerHTML = '';
+      
+      izveletieProjekti.forEach(projekts => {
+        const cardHTML = `
+          <a href="${projekts.url}" class="work-card">
+            <div class="card-bg" style="background-image: url('${projekts.bgImage}');"></div>
+            <div class="card-info">
+              <h2>${projekts.title}</h2>
+              <span class="card-category">Skatīt projektu</span>
+            </div>
+          </a>
+        `;
+        gridContainer.innerHTML += cardHTML;
+      });
+    }
+
+    // Palaižam tiklīdz lapa ir gatava
+    window.addEventListener('DOMContentLoaded', generetRandomProjektus);
+  </script>
+
+</body>
+</html>

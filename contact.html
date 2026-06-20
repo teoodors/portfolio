@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact / About Me — Teodors Lapsa</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23961a24'/></svg>">
+  <link rel="stylesheet" href="https://use.typekit.net/pgu7sez.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="contact-page-bg">
+
+  <nav>
+    <a href="enindex.html" class="nav-logo">Teodors Lapsa</a>
+    
+    <button class="menu-toggle" aria-label="Open menu">
+      <span></span>
+      <span></span>
+    </button>
+    
+    <div class="nav-links">
+      <a href="work.html" class="nav-item">work</a>
+      <a href="contact.html" class="nav-item active-page">contact</a>
+      <a href="archive.html" class="nav-item">archive</a>
+      <a href="kontakti.html" class="nav-item lang-btn">lv</a> 
+      
+      <div class="nav-right-features">
+        <a href="https://instagram.com/teodorslapsa" target="_blank" class="nav-ig-icon" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="editorial-container">
+    
+    <div class="editorial-column">
+      <h1 class="editorial-title">About Me</h1>
+      <div class="editorial-text">
+        I am a photographer and visual content creator who captures events, landscapes. My goal is to create engaging content for both social media and lasting memories. I mostly work with digital photography, but I also have experience with analog formats. I also regularly experiment with video.
+        <br><br>
+        When working with people and at events, capturing true emotions and the environment, rather than fabricating them. I am from the Ķekava Municipality and enjoy trips outside my local area.
+      </div>
+      <img src="Bildes/kontakti/es.jpg" alt="Teodors Lapsa" class="editorial-img">
+    </div>
+
+    <div class="editorial-column right-side">
+      <h1 class="editorial-title right-align">Workflow</h1>
+      <div class="editorial-text">
+        <ul>
+          <li>
+            <strong>Photo Editing</strong>
+            Post-processing with Adobe <span class="adobe-icon">Lr</span> & <span class="adobe-icon">Ps</span>
+          </li>
+          <li>
+            <strong>Gear</strong>
+            <ul class="gear-list">
+              <li>Canon 5D Mk IV</li>
+              <li>24-70mm f/2.8 II L</li>
+              <li>70-200mm f/2.8 II L</li>
+              <li>DJI Mavic 2 Pro</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <img src="Bildes/kontakti/es1.jpg" alt="Teodors Lapsa in action" class="editorial-img">
+    </div>
+
+    <div class="cta-center-container">
+      <button id="open-form-btn" class="huge-contact-btn">write me</button>
+    </div>
+
+  </main>
+
+  <div id="contact-popup" class="form-overlay">
+    <div class="form-popup-content">
+      <h2 class="popup-form-title">Get in touch</h2>
+      
+      <form action="https://api.web3forms.com/submit" method="POST" class="popup-actual-form">
+        <input type="hidden" name="access_key" value="18a93335-8f15-4bf1-ae91-3bb367235f9c">
+
+        <input type="text" name="name" placeholder="Your name" required class="popup-input">
+        <input type="email" name="email" placeholder="Your email" required class="popup-input">
+        <textarea name="message" placeholder="Your message..." required class="popup-textarea"></textarea>
+        
+        <button type="submit" class="popup-submit-btn">Send email</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <a href="mailto:info@teodorslapsa.lv" class="footer-email-link">info@teodorslapsa.lv</a>
+    <br>
+    &copy; 2026 Teodors Lapsa &nbsp;·&nbsp; teodorslapsa.lv
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+    }
+
+    const openBtn = document.getElementById('open-form-btn');
+    const popupOverlay = document.getElementById('contact-popup');
+    
+    if (openBtn && popupOverlay) {
+      openBtn.addEventListener('click', () => {
+        popupOverlay.classList.add('active');
+      });
+
+      popupOverlay.addEventListener('click', (event) => {
+        if (event.target === popupOverlay) {
+          popupOverlay.classList.remove('active');
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
