@@ -459,6 +459,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .archive-hero-link {
@@ -467,33 +468,20 @@ footer {
   width: 95%;
   max-width: 1400px;
   position: relative; 
-  z-index: 50; 
 }
+
+/* BILŽU KARUSEĻA STILI */
 .archive-container {
   display: flex;
-  gap: 0; /* Nomainīts no 10px uz 0. Šis noņem iekšējās līnijas */
+  gap: 0; 
   background-color: #ffffff; 
-  padding: 10px; /* Šis saglabā balto rāmi apkārt visam blokam */
+  padding: 10px; 
   filter: grayscale(100%);
   transition: filter 0.5s ease;
 }
 
-.archive-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #961a24; 
-  -webkit-text-stroke: 1px #69e5db; 
-  mix-blend-mode: difference;
-  font-size: clamp(3rem, 7vw, 6rem); 
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  z-index: 10;
-  margin: 0;
-  white-space: nowrap;
-  pointer-events: none; 
-  transition: opacity 0.4s ease, visibility 0.4s;
+.archive-hero-link:hover .archive-container {
+  filter: grayscale(0%);
 }
 
 .image-square {
@@ -519,19 +507,56 @@ footer {
   opacity: 1;
 }
 
-.archive-hero-link:hover .archive-container {
-  filter: grayscale(0%);
+/* --- AURORAS TEKSTA MAĢIJA --- */
+.aurora-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(3rem, 7vw, 6rem); 
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  margin: 0;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none; 
+
+  /* 1. Uztaisām krāsu pāreju */
+  background: linear-gradient(
+    45deg,
+    #370617,
+    #9d0208,
+    #6a040f,
+    #d00000,
+    #370617
+  );
+  background-size: 300% 300%;
+  
+  /* 2. Liekam krāsai rādīties TIKAI burtos */
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* 3. Pievienojam animāciju ar 'linear', lai krāsas plūstu bez sabremzēšanās */
+  animation: aurora-flow 8s linear infinite;
 }
 
-.archive-hero-link:hover .archive-title {
-  opacity: 0;
-  visibility: hidden;
+/* Animācija krāsu plūšanai */
+@keyframes aurora-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @media (max-width: 768px) {
   .archive-container { 
     gap: 4px; 
     padding: 4px; 
+  }
+
+  /* Pievieno šo savam mobilajam blokam */
+  .aurora-title {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
   }
 }
 

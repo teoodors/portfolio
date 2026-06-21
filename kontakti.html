@@ -21,18 +21,21 @@
     <div class="nav-links">
       <a href="darbi.html" class="nav-item">darbi</a>
       <a href="kontakti.html" class="nav-item active-page">kontakti</a>
-      <a href="arhīvs.html" class="nav-item">arhīvs</a>
-      <a href="contact.html" class="nav-item lang-btn">en</a> 
       
+      <a href="arhīvs.html" class="nav-item">arhīvs</a>
+      <a href="contact.html" class="nav-item lang-btn">en</a>
+
+      <!-- IG POGA IR IEKŠĀ -->
       <div class="nav-right-features">
-        <a href="https://instagram.com/teodorslapsa" target="_blank" class="nav-ig-icon" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-          </svg>
-        </a>
+          <a href="https://instagram.com/teodorslapsa" target="_blank" class="nav-ig-icon" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
       </div>
+
     </div>
   </nav>
 
@@ -94,13 +97,18 @@
   </div>
 
   <footer>
-    <a href="mailto:info@teodorslapsa.lv" class="footer-email-link">info@teodorslapsa.lv</a>
+    <a href="mailto:teodorslapsa@gmail.com" class="footer-email-link">teodorslapsa@gmail.com</a>
     <br>
     &copy; 2026 Teodors Lapsa &nbsp;·&nbsp; teodorslapsa.lv
   </footer>
 
 <!-- JAVASCRIPT SKRIPTI -->
   <script>
+    const navRightFeatures = document.querySelector('.nav-right-features');
+    const navLinksContainer = document.querySelector('.nav-links');
+    if (navRightFeatures && navLinksContainer && !navLinksContainer.contains(navRightFeatures)) {
+      navLinksContainer.appendChild(navRightFeatures);
+    }
     // 1. Mobilā izvēlne
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
