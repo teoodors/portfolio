@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Slēptā kartīte</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="rotateOverlay">
+    <div id="rotateIcon">🔄</div>
+    <div>Pagriez tālruni horizontāli,<br>lai turpinātu</div>
+  </div>
+
+  <div id="lockScreen">
+    <h1> Ieraksti paroli, lai turpinātu</h1>
+    <input type="password" id="pwInput" placeholder="parole..." autocomplete="off">
+    <button id="unlockBtn">Atslēgt</button>
+    <div id="hint">(padoms: raksti, to, kas tev škiet pareizs)</div>
+  </div>
+
+  <canvas id="glitter"></canvas>
+
+  <div class="page-content">
+    <div class="flip-card" id="card">
+      <div class="tilt-wrapper" id="tiltWrapper">
+        <div class="flip-card-inner" id="cardInner">
+          <div class="flip-card-front"></div>
+          <div class="flip-card-back"></div>
+        </div>
+      </div>
+    </div>
+    <div id="cardCaption"> uzspied lai apgrieztu!</div>
+  </div>
+
+<script>
+  const lockScreen = document.getElementById('lockScreen');
+  const card = document.getElementById('card');
+  const tiltWrapper = document.getElementById('tiltWrapper');
+  const cardInner = document.getElementById('cardInner');
+  const caption = document.getElementById('cardCaption');
+  const pwInput = document.getElementById('pwInput');
+  const unlockBtn = document.getElementById('unlockBtn');
+
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
+  // --- Gyroscope tilt for touch devices (mirrors the mousemove tilt below) ---
+  function handleOrientation(e) {
+    const gamma = e.gamma || 0; // left/right
+    const beta = e.beta || 0;   // front/back
+    const angle = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
+
+    let tiltX, tiltY;
+    if (angle === 90) {
+      tiltX = -beta;
+      tiltY = gamma;
+    } else if (angle === -90 || angle === 270) {
+      tiltX = beta;
+      tiltY = -gamma;
+    } else {
+      // Shouldn't normally happen since portrait is gated behind the rotate overlay
+      tiltX = -gamma;
+      tiltY = beta;
+    }
+
+    const px = Math.max(-1, Math.min(1, tiltY / 45));
+    const py = Math.max(-1, Math.min(1, tiltX / 45));
+    const rotateY = px * MAX_TILT;
+    const rotateX = -py * MAX_TILT;
+    const distFromCenter = Math.min(Math.sqrt(px * px + py * py), 1);
+    const push = MAX_PUSH * (1 - distFromCenter);
+
+    tiltWrapper.style.transform =
+      `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${push}px)`;
+  }
+
+  function enableGyroscope() {
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().then(state => {
+        if (state === 'granted') window.addEventListener('deviceorientation', handleOrientation);
+      }).catch(() => {});
+    } else if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', handleOrientation);
+    }
+  }
+
+  function unlock() {
+    lockScreen.classList.add('hidden');
+    card.classList.add('shown');
+    caption.classList.add('shown');
+    if (isTouchDevice) enableGyroscope();
+  }
+
+  // "Fake" gate: any non-empty input, or Enter key, unlocks it.
+  unlockBtn.addEventListener('click', unlock);
+  pwInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') unlock();
+  });
+
+  // --- Click-to-flip (left click only) — spins toward whichever side ---
+  // --- of the card you click (pivot stays centered so the card never ---
+  // --- shifts out of place, only the spin direction changes) ---
+  let isFlipped = false;
+  card.addEventListener('click', (e) => {
+    if (e.button !== 0) return; // ignore anything but the primary/left button
+    const rect = card.getBoundingClientRect();
+    const clickedLeftHalf = (e.clientX - rect.left) < rect.width / 2;
+    isFlipped = !isFlipped;
+    const deg = isFlipped ? (clickedLeftHalf ? -180 : 180) : 0;
+    cardInner.style.transform = `rotateY(${deg}deg)`;
+  });
+
+  // --- Hover tilt: corner under the cursor lifts toward you, ---
+  // --- opposite corner recedes; dead-center pushes the whole card forward ---
+  const MAX_TILT = 18;   // degrees of rotation at the edges
+  const MAX_PUSH = 50;   // px of forward translateZ at dead-center
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;  // 0 -> 1 across the card
+    const y = (e.clientY - rect.top) / rect.height;   // 0 -> 1 down the card
+    const px = (x - 0.5) * 2; // -1 (left) -> 1 (right)
+    const py = (y - 0.5) * 2; // -1 (top)  -> 1 (bottom)
+
+    const rotateY = px * MAX_TILT;   // right side forward, left side back
+    const rotateX = -py * MAX_TILT;  // bottom forward, top back
+
+    // how close the cursor is to the center (0 = center, ~1.41 = corner)
+    const distFromCenter = Math.min(Math.sqrt(px * px + py * py), 1);
+    const push = MAX_PUSH * (1 - distFromCenter);
+
+    tiltWrapper.style.transform =
+      `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${push}px)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    tiltWrapper.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+  });
+</script>
+
+<script>
+  // --- Golden glitter, falling top to bottom, indefinitely, behind the card ---
+  (function() {
+    const canvas = document.getElementById('glitter');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth * devicePixelRatio;
+      H = canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // ---- Tunable settings ----
+    const PARTICLE_COUNT = 110;
+    const GOLD_TONES = ['#FFD700', '#FFC300', '#D4AF37', '#FFEC8B', '#B8860B', '#FFF1C2'];
+    const MIN_SPEED = 0.3, MAX_SPEED = 1.2;
+    const MIN_SIZE = 0.8, MAX_SIZE = 2.6;
+    const DRIFT = 0.4;
+    // ---------------------------
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    class Fleck {
+      constructor() { this.reset(true); }
+      reset(initial) {
+        this.baseX = rand(0, W);
+        this.y = initial ? rand(0, H) : -rand(0, H * 0.1);
+        this.size = rand(MIN_SIZE, MAX_SIZE) * devicePixelRatio;
+        this.speed = rand(MIN_SPEED, MAX_SPEED) * devicePixelRatio;
+        this.color = GOLD_TONES[Math.floor(Math.random() * GOLD_TONES.length)];
+        this.swayOffset = rand(0, Math.PI * 2);
+        this.swaySpeed = rand(0.005, 0.02);
+        this.twinklePhase = rand(0, Math.PI * 2);
+        this.twinkleSpeed = rand(0.02, 0.06);
+      }
+      update(t) {
+        this.y += this.speed;
+        this.x = this.baseX + Math.sin(t * this.swaySpeed + this.swayOffset) * DRIFT * devicePixelRatio * 10;
+        if (this.y > H + 10) {
+          this.baseX = rand(0, W);
+          this.y = -10;
+          this.speed = rand(MIN_SPEED, MAX_SPEED) * devicePixelRatio;
+          this.size = rand(MIN_SIZE, MAX_SIZE) * devicePixelRatio;
+          this.color = GOLD_TONES[Math.floor(Math.random() * GOLD_TONES.length)];
+        }
+      }
+      draw(t) {
+        const twinkle = 0.5 + 0.5 * Math.sin(t * this.twinkleSpeed + this.twinklePhase);
+        ctx.globalAlpha = 0.35 + twinkle * 0.65;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        if (this.size > 1.8 * devicePixelRatio && twinkle > 0.7) {
+          ctx.globalAlpha = (twinkle - 0.7) * 2;
+          ctx.strokeStyle = this.color;
+          ctx.lineWidth = 0.6 * devicePixelRatio;
+          const s = this.size * 3;
+          ctx.beginPath();
+          ctx.moveTo(this.x - s, this.y); ctx.lineTo(this.x + s, this.y);
+          ctx.moveTo(this.x, this.y - s); ctx.lineTo(this.x, this.y + s);
+          ctx.stroke();
+        }
+      }
+    }
+
+    const flecks = Array.from({ length: PARTICLE_COUNT }, () => new Fleck());
+
+    let t = 0;
+    function loop() {
+      t++;
+      ctx.clearRect(0, 0, W, H);
+      for (const f of flecks) {
+        f.update(t);
+        f.draw(t);
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+</script>
+
+</body>
+</html>

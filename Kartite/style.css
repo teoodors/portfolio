@@ -1,0 +1,209 @@
+* { box-sizing: border-box; }
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  background: #0d0d0d;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+html { height: 100dvh; }
+body { height: 100dvh; }
+
+#lockScreen {
+  position: fixed;
+  inset: 0;
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2em;
+  z-index: 10;
+  transition: opacity 0.5s ease;
+}
+#lockScreen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#rotateOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #0d0d0d;
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8em;
+  text-align: center;
+  color: #aaa;
+  font-size: 1.1em;
+  letter-spacing: 0.03em;
+  padding: 2em;
+}
+#rotateIcon {
+  font-size: 2.5em;
+  animation: rotateHint 1.8s ease-in-out infinite;
+}
+@keyframes rotateHint {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+
+/* Only touch devices held in portrait get the rotate prompt —
+   desktop windows resized narrow/tall are left alone. */
+@media (pointer: coarse) and (orientation: portrait) {
+  #rotateOverlay { display: flex; }
+}
+#lockScreen h1 {
+  font-size: 1.1em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #aaa;
+}
+#pwInput {
+  background: #171717;
+  border: 1px solid #333;
+  color: #eee;
+  padding: 0.7em 1em;
+  border-radius: 0.5em;
+  font-size: 1em;
+  outline: none;
+  width: 220px;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+#pwInput:focus { border-color: #555; }
+#unlockBtn {
+  background: #eee;
+  color: #111;
+  border: none;
+  padding: 0.6em 1.4em;
+  border-radius: 0.5em;
+  font-size: 0.95em;
+  cursor: pointer;
+  font-weight: 600;
+}
+#unlockBtn:hover { background: #ccc; }
+#hint {
+  font-size: 1em;
+  color: #555;
+}
+
+#glitter {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.page-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: min(92vw, calc(88vh * 16 / 9), 960px);
+  width: min(92vw, calc(88dvh * 16 / 9), 960px);
+  aspect-ratio: 16 / 9;
+  perspective: 1000px;
+  color: white;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  cursor: pointer;
+}
+.flip-card.shown {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Phones held sideways have very little height to work with — shrink the
+   card so its full width fits AND there's still room below it to read
+   the caption, instead of the card filling (and cropping past) the
+   screen. */
+@media (pointer: coarse) and (orientation: landscape) {
+  .flip-card {
+    width: min(85vw, calc(60vh * 16 / 9), 960px);
+    width: min(85vw, calc(60dvh * 16 / 9), 960px);
+  }
+  #cardCaption {
+    margin-top: 0.8em;
+    font-size: 0.85em;
+  }
+}
+
+/* Handles the mouse-tracked tilt/push — separate element from the flip,
+   so the two transforms never fight each other on the same node. */
+.tilt-wrapper {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card-front, .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  background-color: #171717;
+  background-image: url("Prieksa.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.flip-card-back {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  background-color: #171717;
+  background-image: url("Aizmugure.jpg");
+  background-size: cover;
+  background-position: center;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7em;
+  letter-spacing: 0.15em;
+  color: #555;
+}
+
+#cardCaption {
+  margin-top: 2.6em;
+  font-size: 1.5em;
+  color: #555;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+#cardCaption.shown { opacity: 1; }
