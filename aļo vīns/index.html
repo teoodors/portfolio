@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="lv" class="lock gated">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hello Vīns</title>
+<!-- FONT LOCATION: Adobe Fonts kit "Mājaslapa" — Gunter (headers) + Ciclo Display Regular/Black (small text) -->
+<link rel="stylesheet" href="https://use.typekit.net/pgu7sez.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- CLOSED PAGE: only guests on the list get past this. Texts: "Ielūgums" Ciclo Display Black --fg | helper text Ciclo Display Regular --mute | button Ciclo Display Black (--bg on --fg) -->
+<div id="gate" role="dialog" aria-labelledby="gt">
+  <form id="gf">
+    <h1 class="q" id="gt">Ielūgums</h1>
+    <p class="gp">Šī lapa ir tikai uzaicinātajiem. Ieraksti savu vārdu un uzvārdu.</p>
+    <input id="gn" aria-label="Vārds un uzvārds" placeholder="vārds uzvārds" autocomplete="name">
+    <button class="btn" type="submit">Apstiprināt</button>
+    <p class="msg" id="gm" role="status"></p>
+  </form>
+</div>
+
+<!-- INTRO. Each scroll / swipe / arrow key moves one step. Fonts and colours: see style.css TEXT MAP -->
+<main id="intro" data-stage="-1">
+
+  <!-- step 0: "CIU" — Gunter, outline in --fg -->
+  <section class="slide up" data-from="0" data-to="0"><h1 class="big out" data-split>CIU</h1></section>
+
+  <!-- step 1: "Kas ir 31.10?" — Ciclo Display Black, --fg | button — Ciclo Display Black, --bg on --fg -->
+  <section class="slide" data-from="1" data-to="1">
+    <p class="q t">Kas ir 31.10?</p>
+    <a class="btn t" href="#pay" id="skip">Esmu pārāk svarīgs, kas par sviestu?</a>
+  </section>
+
+  <!-- step 2: "HELLOVĪNI" — Gunter, outline in --fg -->
+  <section class="slide drop" data-from="2" data-to="2"><h2 class="big big2 out" data-split>HELLOVINI</h2></section>
+
+  <!-- step 3: "bet, kas ir 2 nedēļas vēlāk?" — Ciclo Display Black, --fg -->
+  <section class="slide" data-from="3" data-to="3"><p class="q t">bet, kas ir 2 nedēļas vēlāk?</p></section>
+
+  <!-- step 4: HELLO VĪNS (Ciclo Display Black, --fg) | step 5: ko? kas? kur? blē. all appear together in --pop -->
+  <section class="slide" data-from="4" data-to="5">
+    <div class="hv">
+      <div class="row row1"><h2 class="big" data-split>HELLO</h2>
+        <span class="side"><span class="hw" data-at="5" style="--r:-6deg">ko?</span><span class="hw" data-at="5" style="--r:5deg">kur?</span></span></div>
+      <div class="row row2">
+        <span class="side"><span class="hw" data-at="5" style="--r:4deg">kas?</span><span class="hw" data-at="5" style="--r:-3deg">bla</span></span>
+        <h2 class="big" data-split>VINS</h2></div>
+    </div>
+  </section>
+
+  <div class="hint" aria-hidden="true">↓</div>
+</main>
+
+<section class="pad" id="info">
+  <h2 class="big h fill">HELLO ViNS</h2>
+  <div class="grid">
+    <div class="card rv"><h3>Krokusos !!</h3><p>Turpat, kur arī bija lieldienas un pirts..</p></div>
+    <div class="card rv"><h3>Dresskods</h3><p>Supervaronis latvijas apkaimē. Piem. Bača, Šlesers līdz pat Rainim.</p></div>
+    <div class="card rv"><h3>Dzert</h3><p>Jo stiprāks jo labāks, manā bilžu grāmatā. Šoferīšiem gan, laikam, nevajadzētu.</p></div>
+  </div>
+  <p class="sub rv" style="margin-top:2rem">14.11 · Laiks: 19:00</p>
+</section>
+
+<section class="pad" id="pay">
+  <h2 class="big h fill">hmmmmmm</h2>
+  <div class="pair">
+    <div class="card rv"><h3>Finansejums</h3><img src="piķi_pls.jpg" alt="wpp qr"><p>Pieci lati un visiem būs kāji plati..</p><p>šiš ir nopietni</p></div>
+    <div class="card rv"><h3>Whazzapp</h3><img src="helvīns_wpp.jpg" alt="wpp qr"><p>Kopējais čats bezjēdzīgām "sarunām"</p><p>iespējams, papildus informācijai</p></div>
+  </div>
+</section>
+
+<div class="count" aria-label="Laiks līdz pasākumam"><div id="cd">0</div><div id="ch">0<small>stundas</small></div><div id="cm">0<small>minūtes</small></div><div id="cs">0<small>sekundes</small></div></div>
+<script>
+// ---- config: change these ----
+var EVENT = new Date('2026-11-14T19:00:00+02:00');
+var RSVP_URL = 'https://script.google.com/macros/s/AKfycbwNMWXgkN7Of0_CELlba0SuWdL6ZAbqNSrxwPJXVfiRlO7GhCd0JV34w1H3V--iQcIGgg/exec';   // your Google Apps Script web-app link (see apps-script.gs)
+// ------------------------------
+// ---- intro stage machine ----
+var intro=document.getElementById('intro'),slides=[].slice.call(intro.querySelectorAll('.slide')),words=[].slice.call(intro.querySelectorAll('.hw'));
+var stage=-1,LAST=5,locked=true,busy=false,BUSY=1100,html=document.documentElement;
+if(matchMedia('(prefers-reduced-motion:reduce)').matches)BUSY=300;   // BUSY = how long (ms) one step takes; raise it for even slower
+var n=0;
+[].forEach.call(document.querySelectorAll('[data-split]'),function(el){
+  var t=el.textContent;el.setAttribute('aria-label',t);el.textContent='';
+  t.split('').forEach(function(ch,i){var s=document.createElement('span');s.className='l';s.setAttribute('aria-hidden','true');s.textContent=ch;n++;
+    s.style.setProperty('--i',i);
+    s.style.setProperty('--x',Math.round(Math.sin(n*12.9898)*320)+'px');   // each letter gets its own direction
+    s.style.setProperty('--y',Math.round(Math.cos(n*78.233)*260)+'px');
+    s.style.setProperty('--r',Math.round(Math.sin(n*37.719)*55)+'deg');
+    el.appendChild(s)})});
+function render(){
+  slides.forEach(function(s){var f=+s.dataset.from,t=+s.dataset.to;
+    s.classList.toggle('before',stage<f);s.classList.toggle('after',stage>t);s.classList.toggle('active',stage>=f&&stage<=t)});
+  words.forEach(function(w){w.classList.toggle('on',stage>=+w.dataset.at)});
+  intro.dataset.stage=stage}
+function hold(ms){busy=true;setTimeout(function(){busy=false},ms)}
+function release(target){locked=false;html.classList.remove('lock');hold(1600);
+  (target||document.getElementById('info')).scrollIntoView({behavior:'smooth'})}
+function relock(){busy=true;scrollTo({top:0,behavior:'smooth'});
+  setTimeout(function(){locked=true;html.classList.add('lock');busy=false},1000)}
+function go(d){if(busy||!locked||html.classList.contains('gated'))return;var s=stage+d;if(s<0)return;if(s>LAST){release();return}stage=s;render();hold(BUSY)}
+var lw=0,ty=null;
+addEventListener('wheel',function(e){var now=Date.now(),gap=now-lw;lw=now;if(Math.abs(e.deltaY)<2)return;var d=e.deltaY>0?1:-1;
+  if(locked){e.preventDefault();if(gap>90)go(d)}
+  else if(d<0&&scrollY<=intro.offsetHeight+8&&!busy){e.preventDefault();relock()}},{passive:false});
+addEventListener('touchstart',function(e){ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchmove',function(e){if(locked)e.preventDefault()},{passive:false});
+addEventListener('touchend',function(e){if(ty==null)return;var dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)<30)return;
+  var d=dy>0?1:-1;if(locked)go(d);else if(d<0&&scrollY<=intro.offsetHeight+8&&!busy)relock()});
+addEventListener('keydown',function(e){var k=e.key,d=(k==='ArrowDown'||k==='PageDown'||k===' ')?1:(k==='ArrowUp'||k==='PageUp')?-1:0;
+  if(/^(INPUT|TEXTAREA)$/.test(e.target.tagName)||html.classList.contains('gated'))return;   // let people type (space etc.)
+  if(d&&locked){e.preventDefault();go(d)}});
+document.getElementById('skip').addEventListener('click',function(e){e.preventDefault();release(document.getElementById('pay'))});
+function startIntro(){setTimeout(function(){stage=0;render()},350)}   // first word rises in
+render();
+
+// ---- closed page + RSVP: guest name is checked against the Google Sheet ----
+var gate=document.getElementById('gate');
+function openPage(){gate.classList.add('done');html.classList.remove('gated');startIntro()}
+var known=null;try{known=localStorage.getItem('hv_guest')}catch(e){}   // remembered on this device
+if(known)openPage();
+document.getElementById('gf').addEventListener('submit',function(e){e.preventDefault();
+ var name=document.getElementById('gn').value.trim(),gm=document.getElementById('gm'),b=this.querySelector('button');
+ if(!name){gm.textContent='Ieraksti savu vārdu.';return}
+ if(RSVP_URL.indexOf('REPLACE_ME')>-1){gm.textContent='RSVP vēl nav pieslēgts (RSVP_URL).';return}
+ b.disabled=true;gm.textContent='Pārbaudu… (pirmās reizes parasti ilgst dažas sekundes...)';
+ var ac=new AbortController(),to=setTimeout(function(){ac.abort()},25000);
+ fetch(RSVP_URL+'?name='+encodeURIComponent(name),{signal:ac.signal}).then(function(r){return r.json()}).then(function(d){
+  clearTimeout(to);
+  if(d&&d.ok){try{localStorage.setItem('hv_guest',d.name||name)}catch(e){}
+   document.getElementById('gf').innerHTML='<p class="q">Paldies, ka apstiprināji!</p>';
+   setTimeout(openPage,1800)}
+  else{gm.textContent='Tava vārda sarakstā nav. Pārbaudi pareizrakstību vai uzraksti organizatoram.';b.disabled=false}
+ }).catch(function(){clearTimeout(to);gm.textContent='Neizdevās savienoties. Mēģini vēlreiz.';b.disabled=false})});
+
+// ---- page reveals, countdown ----
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('in')})},{threshold:.2});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+function tick(){var d=Math.max(0,EVENT-new Date()),s=Math.floor(d/1e3);
+ document.getElementById('cd').innerHTML=Math.floor(s/86400)+'<small>dienas</small>';
+ document.getElementById('ch').innerHTML=Math.floor(s%86400/3600)+'<small>stundas</small>';
+ document.getElementById('cm').innerHTML=Math.floor(s%3600/60)+'<small>minūtes</small>';
+ document.getElementById('cs').innerHTML=s%60+'<small>sekundes</small>'}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
