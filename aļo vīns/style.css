@@ -124,7 +124,10 @@ section.pad{padding:18vh 1.5rem;max-width:960px;margin:auto}
 .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .card{background:var(--card);border-radius:28px;padding:1.6rem;min-height:190px;display:flex;flex-direction:column;gap:.5rem}
 .card h3{font-family:var(--d);font-weight:400;font-size:1.8rem;color:var(--fg)}   /* Gunter — --fg */
-.card p{color:var(--mute)}                                                         /* Ciclo Display Regular — --mute */
+.card h3 a{color:var(--fg);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.15em}
+.card h3 a:active{opacity:.6}   /* dims a little while tapped, so phones get feedback */
+.card p{color:var(--mute)}      
+.card p.addr{font-size:.8rem}                                                   /* Ciclo Display Regular — --mute */
 .rv{opacity:0;transform:translateY(50px) scale(.97);filter:blur(6px);transition:opacity .7s ease,transform .9s var(--ease),filter .7s ease}
 .rv.in{opacity:1;transform:none;filter:none}
 .rv:nth-child(2){transition-delay:.1s}.rv:nth-child(3){transition-delay:.2s}
