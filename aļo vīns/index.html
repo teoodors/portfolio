@@ -11,10 +11,10 @@
 </head>
 <body>
 
-<!-- CLOSED PAGE: only guests on the list get past this. Texts: "Ielūgums" Ciclo Display Black --fg | helper text Ciclo Display Regular --mute | button Ciclo Display Black (--bg on --fg) -->
+<!-- CLOSED PAGE: only guests on the list get past this. "Ielugums" Gunter --fg | helper text Ciclo Display Regular --mute | button Ciclo Display Black (--bg on --fg) -->
 <div id="gate" role="dialog" aria-labelledby="gt">
   <form id="gf">
-    <h1 class="big" id="gt">Ielugums</h1> 
+    <h1 class="big" id="gt">Ielugums</h1>
     <p class="gp">Šī lapa ir tikai uzaicinātajiem. Ieraksti savu vārdu un uzvārdu.</p>
     <input id="gn" aria-label="Vārds un uzvārds" placeholder="vārds uzvārds" autocomplete="name">
     <button class="btn" type="submit">Apstiprināt</button>
@@ -31,16 +31,16 @@
   <!-- step 1: "Kas ir 31.10?" — Ciclo Display Black, --fg | button — Ciclo Display Black, --bg on --fg -->
   <section class="slide" data-from="1" data-to="1">
     <p class="q t">Kas ir 31.10?</p>
-    <a class="btn t" href="#pay" id="skip">Esmu pārāk svarīgs, kas par sviestu?</a>
+    <a class="btn t" href="#info" id="skip"></a>
   </section>
 
   <!-- step 2: "HELLOVĪNI" — Gunter, outline in --fg -->
   <section class="slide drop" data-from="2" data-to="2"><h2 class="big big2 out" data-split>HELLOVINI</h2></section>
 
   <!-- step 3: "bet, kas ir 2 nedēļas vēlāk?" — Ciclo Display Black, --fg -->
-  <section class="slide" data-from="3" data-to="3"><p class="q t">bet, kas ir 2 nedēļas vēlāk?</p></section>
+  <section class="slide" data-from="3" data-to="3"><p class="q t">bet, kas ir 2 nedelas velak?</p></section>
 
-  <!-- step 4: HELLO VĪNS (Ciclo Display Black, --fg) | step 5: ko? kas? kur? blē. all appear together in --pop -->
+  <!-- step 4: HELLO VINS (Gunter, --fg) | step 5: ko? kas? kur? blē. all appear together in --pop -->
   <section class="slide" data-from="4" data-to="5">
     <div class="hv">
       <div class="row row1"><h2 class="big" data-split>HELLO</h2>
@@ -55,28 +55,38 @@
 </main>
 
 <section class="pad" id="info">
-  <h2 class="big h fill">HELLO ViNS</h2>
+  <h2 class="big h">HELLO ViNS</h2>
   <div class="grid">
-    <div class="card rv"><h3>Krokusos !!</h3><p>Turpat, kur arī bija lieldienas un pirts..</p><p class="addr">Krokusi, Daugmales pagasts, Ķekavas novads</p></div>
-    <div class="card rv"><h3>Dresskods</h3><p>Supervaronis latvijas apkaimē. Piem. Bača, Šlesers līdz pat Rainim.</p></div>
-    <div class="card rv"><h3>Dzert</h3><p>Jo stiprāks, jo labāks, manā bilžu grāmatā. Šoferīšiem gan, laikam, nevajadzētu.</p><p class="addr">pašiem jāsagādā.. );</p></div>
+    <div class="card rv"><h3>Krokusos !!</h3><p>Turpat, kur arii bija lieldienas un pirts..</p><p class="addr">Krokusi, Daugmales pagasts, Ķekavas novads</p></div>
+    <div class="card rv"><h3>Dresskods</h3><p>Supervaronis latvijas apkaimee. Piem. Bacha, Slesers lidz pat Rainim.</p></div>
+    <div class="card rv"><h3>Dzert</h3><p>Jo stipraaks, jo labaak.</p><p class="addr">pasiem jasagadaa.. );</p></div>
   </div>
   <p class="sub rv" style="margin-top:2rem">14.11 // 19:00</p>
 </section>
 
 <section class="pad" id="pay">
-  <h2 class="big h fill">hmmmmmm</h2>
+  <h2 class="big h">hmmmmmm</h2>
   <div class="pair">
     <div class="card rv"><h3><a href="https://www.swedbank.lv/pay?id=3mgfsp1u6dksd" target="_blank" rel="noopener">Finansejums</a></h3><img src="piķi_pls.jpg" alt="wpp qr"><p>Pieci lati un visiem būs kāji plati..</p><p>šiš ir nopietni</p></div>
-    <div class="card rv"><h3><a href="https://chat.whatsapp.com/F0RTUGAiihtJGdYLDQ9c78" target="_blank" rel="noopener">Whazzapp</a></h3><img src="helvīns_wpp.jpg" alt="wpp qr"><p>Kopējais čats bezjēdzīgām "sarunām"</p><p>iespējams, papildus informācijai</p></div>
+    <div class="card rv"><h3><a href="https://chat.whatsapp.com/F0RTUGAiihtJGdYLDQ9c78" target="_blank" rel="noopener">Whazzapp</a></h3><img src="helvīns_wpp.jpg" alt="wpp qr"><p>Kaut kad būs pasākuma plāns</p><p>nav tik nopietni</p></div>
   </div>
 </section>
 
-<div class="count" aria-label="Laiks līdz pasākumam"><div id="cd">0</div><div id="ch">0<small>stundas</small></div><div id="cm">0<small>minūtes</small></div><div id="cs">0<small>sekundes</small></div></div>
+<!-- COUNTDOWN + the guy peeking over the strip (vins.png) and his text -->
+<div class="footwrap">
+<div class="count" aria-label="Laiks līdz pasākumam">
+  <img class="peek peek-l rv" src="vins.png" alt="viņš">
+  <img class="peek peek-r rv" src="mareks2.png" alt="viņš 2">
+  <p class="peektext"><span class="q">Ja ir ???<br>doties pie tiem</span><small>arii par +1</small></p>
+  <div id="cd">0</div><div id="ch">0<small>stundas</small></div><div id="cm">0<small>minūtes</small></div><div id="cs">0<small>sekundes</small></div>
+</div>
+</div>
+
 <script>
 // ---- config: change these ----
 var EVENT = new Date('2026-11-14T19:00:00+02:00');
 var RSVP_URL = 'https://script.google.com/macros/s/AKfycbwNMWXgkN7Of0_CELlba0SuWdL6ZAbqNSrxwPJXVfiRlO7GhCd0JV34w1H3V--iQcIGgg/exec';   // your Google Apps Script web-app link (see apps-script.gs)
+var RELOCK_AT = 0.15;   // scrolling back up snaps to the intro only when the intro is almost fully in view (0 = only at the very top, 1 = right away)
 // ------------------------------
 // ---- intro stage machine ----
 var intro=document.getElementById('intro'),slides=[].slice.call(intro.querySelectorAll('.slide')),words=[].slice.call(intro.querySelectorAll('.hw'));
@@ -97,23 +107,28 @@ function render(){
   words.forEach(function(w){w.classList.toggle('on',stage>=+w.dataset.at)});
   intro.dataset.stage=stage}
 function hold(ms){busy=true;setTimeout(function(){busy=false},ms)}
+var info=document.querySelector('#info .h');   // the "HELLO ViNS" heading: where the button and the last intro step lead
 function release(target){locked=false;html.classList.remove('lock');hold(1600);
-  (target||document.getElementById('info')).scrollIntoView({behavior:'smooth'})}
+  (target||info).scrollIntoView({behavior:'smooth'})}
 function relock(){busy=true;scrollTo({top:0,behavior:'smooth'});
   setTimeout(function(){locked=true;html.classList.add('lock');busy=false},1000)}
 function go(d){if(busy||!locked||html.classList.contains('gated'))return;var s=stage+d;if(s<0)return;if(s>LAST){release();return}stage=s;render();hold(BUSY)}
-var lw=0,ty=null;
-addEventListener('wheel',function(e){var now=Date.now(),gap=now-lw;lw=now;if(Math.abs(e.deltaY)<2)return;var d=e.deltaY>0?1:-1;
-  if(locked){e.preventDefault();if(gap>90)go(d)}
-  else if(d<0&&scrollY<=intro.offsetHeight+8&&!busy){e.preventDefault();relock()}},{passive:false});
+var lw=0,ty=null,lastY=0;
+addEventListener('wheel',function(e){var now=Date.now(),gap=now-lw;lw=now;
+  if(!locked||Math.abs(e.deltaY)<2)return;
+  e.preventDefault();if(gap>90)go(e.deltaY>0?1:-1)},{passive:false});
 addEventListener('touchstart',function(e){ty=e.touches[0].clientY},{passive:true});
 addEventListener('touchmove',function(e){if(locked)e.preventDefault()},{passive:false});
-addEventListener('touchend',function(e){if(ty==null)return;var dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)<30)return;
-  var d=dy>0?1:-1;if(locked)go(d);else if(d<0&&scrollY<=intro.offsetHeight+8&&!busy)relock()});
+addEventListener('touchend',function(e){if(ty==null)return;var dy=ty-e.changedTouches[0].clientY;ty=null;
+  if(locked&&Math.abs(dy)>=30)go(dy>0?1:-1)});
+// scrolling up (wheel, touch, keys, scrollbar) snaps back into the intro only once it is nearly back at the top
+addEventListener('scroll',function(){var y=scrollY;
+  if(!locked&&!busy&&y<lastY&&y<=intro.offsetHeight*RELOCK_AT)relock();
+  lastY=y},{passive:true});
 addEventListener('keydown',function(e){var k=e.key,d=(k==='ArrowDown'||k==='PageDown'||k===' ')?1:(k==='ArrowUp'||k==='PageUp')?-1:0;
   if(/^(INPUT|TEXTAREA)$/.test(e.target.tagName)||html.classList.contains('gated'))return;   // let people type (space etc.)
   if(d&&locked){e.preventDefault();go(d)}});
-document.getElementById('skip').addEventListener('click',function(e){e.preventDefault();release(document.getElementById('pay'))});
+document.getElementById('skip').addEventListener('click',function(e){e.preventDefault();release()});
 function startIntro(){setTimeout(function(){stage=0;render()},350)}   // first word rises in
 render();
 

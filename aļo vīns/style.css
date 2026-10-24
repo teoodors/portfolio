@@ -6,7 +6,7 @@
    --bg     #1c0509 ink wine    #f6e9df cream                    page background
    --fg     #f6e9df cream       #2a0710 dark wine                main text, outlines
    --wine   #7a1230 wine red    #b3264a                          countdown strip
-   --pop    #ff5a6e hot coral   #c4143a                          ko? kas? kur? blē.
+   --pop    #ff5a6e hot coral   #c4143a                          ko? kas? kur? bla
    --mute   #c9a9a0 dusty rose  #7a5a58                          small grey-pink text
    --card   #2a0a10 deep wine   #ecd8cc                          cards and boxes
 
@@ -15,20 +15,22 @@
    --b  SMALL TEXT  "ciclo-display" 400/900 (Adobe Fonts, same kit)
 
    TEXT MAP (text -> font -> colour)
-   "ČAU"                               Gunter   outline only, stroke --fg
+   "CIU"                               Gunter   outline only, stroke --fg
    "Kas ir 31.10?"                     Ciclo Display Black   --fg
-   button "Esmu pārāk svarīgs..."      Ciclo Display Black     text --bg on --fg box
-   "HELLOVĪNI"                         Gunter   outline only, stroke --fg
+   button "Esmu pārāk svarīgs..."      Ciclo Display Black   text --bg on --fg box
+   "HELLOVINI"                         Gunter   outline only, stroke --fg
    "bet, kas ir 2 nedēļas vēlāk?"      Ciclo Display Black   --fg
-   "HELLO" / "VĪNS"                    Gunter   solid --fg
-   "ko?" "kas?" "kur?" "blē."          Ciclo Display Black   --pop
+   "HELLO" / "VINS"                    Gunter   solid --fg
+   "ko?" "kas?" "kur?" "bla"           Ciclo Display Black   --pop
    section headings                    Gunter   solid --fg
-   card titles (Kronusi...)            Gunter   --fg
-   card text, date line, small text    Ciclo Display Regular     --mute
-   "Ielūgums" (closed-page heading)    Ciclo Display Black   --fg
+   card titles (underlined links)      Gunter   --fg
+   card text                           Ciclo Display Regular --mute (address lines .8rem)
+   "14.11 // 19:00"                    Ciclo Display Regular --mute
+   "Ielugums" (closed-page heading)    Gunter   --fg
    gate helper text                    Ciclo Display Regular --mute
    "Paldies, ka apstiprināji!"         Ciclo Display Black   --fg
    countdown numbers                   Gunter   #fff on --wine
+   "Ja ir ??? vērsties pie viņa..."    Ciclo Display Black   --fg
    ===================================================================== */
 
 :root{
@@ -52,12 +54,13 @@ body{background:var(--bg);color:var(--fg);font:400 1.05rem/1.5 var(--b);overflow
 a:focus-visible,input:focus-visible,.btn:focus-visible{outline:3px solid var(--pop);outline-offset:3px}
 
 /* ---------- CLOSED PAGE / RSVP GATE ---------- */
-html.gated main,html.gated section.pad,html.gated .count{display:none}   /* nothing shows until the guest is confirmed */
+html.gated main,html.gated section.pad,html.gated .footwrap{display:none}   /* nothing shows until the guest is confirmed */
 #gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:var(--bg);transition:opacity .8s ease,visibility .8s}
 #gate.done{opacity:0;visibility:hidden;pointer-events:none}
 #gf{display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center;max-width:26rem;width:100%}
 .gp{color:var(--mute)}                                  /* Ciclo Display Regular — --mute */
 #gn{width:min(100%,320px)}
+#gt{font-size:clamp(3rem,14vw,5.5rem);color:var(--fg)}   /* Gunter, --fg */
 
 /* ---------- INTRO: one thing at a time ---------- */
 #intro{position:relative;height:100vh;height:100svh;overflow:hidden}
@@ -97,8 +100,9 @@ html.gated main,html.gated section.pad,html.gated .count{display:none}   /* noth
 .big2{font-size:clamp(2rem,12vw,8rem)}
 
 /* button "Esmu pārāk svarīgs, kas par sviestu?" — font: Ciclo Display Black — colour: text --bg, box --fg */
-.btn{font:900 1rem var(--b);color:var(--bg);background:var(--fg);border:0;border-radius:99px;padding:.9rem 1.5rem;cursor:pointer;text-decoration:none;display:inline-block}
-.slide .btn{position:absolute;right:0;bottom:0;border-radius:0;max-width:min(100%,14rem);text-align:left;font-size:.65rem;line-height:1.3;padding:.4rem .6rem}
+.btn{font:900 1rem var(--b);color:var(--bg);;border:0;border-radius:99px;padding:.9rem 1.5rem;cursor:pointer;text-decoration:none;display:inline-block}
+.slide .btn{position:absolute;right:max(.6rem,env(safe-area-inset-right));bottom:max(.6rem,env(safe-area-inset-bottom));border-radius:0;max-width:min(100%,14rem);text-align:left;font-size:.65rem;line-height:1.3;padding:.5rem .7rem}
+.slide .btn::after{content:"";position:absolute;inset:-18px}   /* invisible: makes the clickable area much bigger than the button */
 
 /* "HELLO" "VĪNS" + ko? kur? (far right, level with HELLO) and kas? blē. (far left, under HELLO) — as drawn */
 .hv{display:flex;flex-direction:column;gap:.1em;width:min(96vw,1400px);font-size:clamp(3rem,13vw,9rem)}
@@ -116,18 +120,19 @@ html.gated main,html.gated section.pad,html.gated .count{display:none}   /* noth
 #intro:not([data-stage="0"]) .hint{opacity:0}
 @keyframes bob{50%{transform:translateY(8px)}}
 
-/* ---------- INFO, PAY, ASK ---------- */
+/* ---------- INFO, PAY ---------- */
 section.pad{padding:18vh 1.5rem;max-width:960px;margin:auto}
 /* section headings — font: Gunter — colour: --fg */
+#info .h{scroll-margin-top:12vh}   /* where the button / last intro step scroll to */
 .big.h{font-size:clamp(2.6rem,12vw,6rem);margin-bottom:2.5rem;text-align:center;color:var(--fg)}
 .sub{font-size:clamp(1.1rem,4.5vw,1.8rem);color:var(--mute);text-align:center}   /* Ciclo Display Regular — --mute */
 .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .card{background:var(--card);border-radius:28px;padding:1.6rem;min-height:190px;display:flex;flex-direction:column;gap:.5rem}
 .card h3{font-family:var(--d);font-weight:400;font-size:1.8rem;color:var(--fg)}   /* Gunter — --fg */
-.card h3 a{color:var(--fg);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.15em}
+.card h3 a{display:inline-block;padding:.35em .5em;margin:-.35em -.5em;color:var(--fg);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.15em}   /* padding+negative margin = bigger click area, same look */
 .card h3 a:active{opacity:.6}   /* dims a little while tapped, so phones get feedback */
-.card p{color:var(--mute)}      
-.card p.addr{font-size:.8rem}                                                   /* Ciclo Display Regular — --mute */
+.card p{color:var(--mute)}                  /* Ciclo Display Regular — --mute */
+.card p.addr{font-size:.8rem}
 .rv{opacity:0;transform:translateY(50px) scale(.97);filter:blur(6px);transition:opacity .7s ease,transform .9s var(--ease),filter .7s ease}
 .rv.in{opacity:1;transform:none;filter:none}
 .rv:nth-child(2){transition-delay:.1s}.rv:nth-child(3){transition-delay:.2s}
@@ -140,10 +145,32 @@ section.pad{padding:18vh 1.5rem;max-width:960px;margin:auto}
 form{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
 input{font:400 1rem var(--b);padding:.8rem 1rem;border-radius:99px;border:2px solid var(--mute);background:transparent;color:var(--fg);width:min(100%,220px);text-align:center}
 .msg{min-height:1.5em;color:var(--mute)}
-/* countdown — font: Gunter — colour: #fff on --wine; labels Ciclo Display */
-.count{width:100%;text-align:center;display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;padding:1.2rem;background:var(--wine);color:#fff;font-family:var(--d);font-size:clamp(1.6rem,8vw,3rem)}
-.count div{text-align:center;min-width:3.2ch}
+/* footwrap: ends the page exactly at the bottom of the countdown strip. It clips anything hanging below the strip (so no extra empty scroll),
+   and its top padding / negative margin cancel out so the guys above the strip are not cut off */
+.footwrap{overflow:hidden;padding-top:900px;margin-top:-900px;pointer-events:none}
+/* countdown strip — font: Gunter — colour: #fff on --wine; labels Ciclo Display */
+/* --peek-w = the guy's width. Change this ONE number and the guy, his overlap, his text and the gap above the strip all scale with it */
+.count{--peek-w:clamp(260px,46vw,780px);position:relative;width:100%;margin-top:max(calc(var(--peek-w)*.1),calc(var(--peek-w)*.73 - 18vh));text-align:center;display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;padding:1.2rem;background:var(--wine);color:#fff;font-family:var(--d);font-size:clamp(1.6rem,8vw,3rem)}
+.count div{position:relative;z-index:1;text-align:center;min-width:3.2ch}   /* numbers stay on top of the picture */
 .count small{display:block;font:400 .75rem var(--b);opacity:.8}
+
+/* two guys peeking over the strip (vins.png left, vins2.png right).
+   --lap-l / --lap-r = fraction of each guy's width that hangs down over the strip.
+   Bigger number = he sits lower. Tune each until his chin touches the strip line. */
+.count{--lap-l:.23;--lap-r:0}
+.peek{position:absolute;bottom:100%;width:var(--peek-w);height:auto;border-radius:0;pointer-events:none}
+.peek-l{left:2%;margin-bottom:calc(var(--peek-w)*var(--lap-l)*-1.01)}
+/* right guy: sits ON the strip line, no overlap (raise --lap-r above 0 to sink him into the strip) */
+.peek-r{right:2%;left:auto;margin-bottom:calc(var(--peek-w)*var(--lap-r)*-1)}
+
+/* the question text sits in the centre between the two guys */
+.peektext{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + var(--peek-w)*.3);width:calc(var(--peek-w)*.9);text-align:center;color:var(--fg);font-family:var(--b);pointer-events:none}
+.peektext .q{display:block;font-size:clamp(1.2rem,calc(var(--peek-w)*.07),3.4rem)}
+.peektext small{display:block;font:900 clamp(.8rem,calc(var(--peek-w)*.035),1.4rem) var(--b);opacity:1}
+@media(max-width:640px){
+  .count{--peek-w:44vw}
+  .peektext{bottom:calc(100% + var(--peek-w)*.95);width:80vw}   /* text rides above both guys on phones */
+}
 
 @media(prefers-reduced-motion:reduce){
   *{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
