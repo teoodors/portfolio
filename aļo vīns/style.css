@@ -167,9 +167,24 @@ input{font:400 1rem var(--b);padding:.8rem 1rem;border-radius:99px;border:2px so
 .peektext{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + var(--peek-w)*.3);width:calc(var(--peek-w)*.9);text-align:center;color:var(--fg);font-family:var(--b);pointer-events:none}
 .peektext .q{display:block;font-size:clamp(1.2rem,calc(var(--peek-w)*.07),3.4rem)}
 .peektext small{display:block;font:900 clamp(.8rem,calc(var(--peek-w)*.035),1.4rem) var(--b);opacity:1}
+/* ---------- PHONES (most guests will be here) ---------- */
 @media(max-width:640px){
-  .count{--peek-w:44vw}
-  .peektext{bottom:calc(100% + var(--peek-w)*.95);width:80vw}   /* text rides above both guys on phones */
+  html{-webkit-text-size-adjust:100%}
+  section.pad{padding:12vh 1.1rem}
+  .big.h{font-size:9.4vw;margin-bottom:1.8rem}          /* "hmmmmmm" is very wide in Gunter: this keeps it inside the screen */
+  .card{padding:1.3rem;border-radius:24px;min-height:0}
+  .card h3{font-size:1.6rem}
+  .pair img{width:min(100%,220px)}
+
+  /* countdown: both guys side by side, question text above them, all four numbers in ONE row */
+  .count{--peek-w:48vw;
+    margin-top:max(1rem,calc(var(--peek-w)*.43 + 7rem - 12vh));   /* room for the guys + the text above the strip */
+    flex-wrap:nowrap;justify-content:space-evenly;gap:.2rem;padding:1rem .4rem;font-size:7vw}
+  .count div{min-width:0;flex:1}
+  .count small{font-size:.65rem}
+  .peek-l{left:1%}
+  .peek-r{right:1%}
+  .peektext{bottom:calc(100% + var(--peek-w)*.43 + .9rem);width:92vw}   /* text sits above the taller of the two guys */
 }
 
 @media(prefers-reduced-motion:reduce){
